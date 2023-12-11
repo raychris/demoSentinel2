@@ -1,0 +1,19 @@
+services:
+
+  postgres_db:
+    image: postgres:11.1
+    #image: postgis/postgis:11-3.3
+    user: postgres
+    environment:   # Set up postgres database name and password
+      POSTGRES_PASSWORD: codechallengepwd
+      POSTGRES_DB: codechallenge
+      POSTGRES_USER: postgres
+    ports:    # Set up ports exposed for other containers to connect to
+      - 5432:5432
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
